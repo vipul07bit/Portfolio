@@ -30,6 +30,8 @@ nav {
   font-size: 18px;
   margin-bottom: 0;
   font-weight: 600;
+  color: #3E6FAB;
+  font-weight: bold;
 }
 .logo span {
   font-size: 14px;
@@ -50,6 +52,29 @@ nav {
 }
 .nav-links .menu {
   display: none;
+}
+
+.hire {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px; /* Slightly smaller default font looks cleaner */
+    font-weight: 600;
+    padding: 0.6rem 1.4rem; /* More horizontal padding makes it look like a sleek pill button */
+    background-color: rgba(0, 173, 255, 0.12); /* Softer base background */
+    border: 2px dashed rgba(0, 173, 255, 0.4); /* Slightly crisper border so it's visible */
+    border-radius: 50px; /* Perfect pill shape */
+    color: #00adff; /* Ensures text matches your theme color */
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease; /* Smoothly animates the hover transition */
+}
+
+/* Fixed: Uses the correct :hover pseudo-class */
+.hire:hover {
+    background-color: rgba(0, 173, 255, 0.25); /* Deepens background smoothly */
+    border-style: solid; /* Switches from dashed to solid for an interactive feel */
+    transform: translateY(4px); /* Delicate micro-interaction lift */
 }
 
 /* HERO SECTION FIXED */
@@ -130,6 +155,7 @@ nav {
 
 /* The Typewriter Effect */
 .hero-name {
+  color: #3E6FAB;
   display: inline-block; /* Keeps the container exactly as wide as the text */
   overflow: hidden;      /* Hides the text that hasn't been "typed" yet */
   white-space: nowrap;   /* Prevents the text from wrapping to the next line */
@@ -188,4 +214,359 @@ nav {
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #f9f9f9;
+}
+
+/* Core Layout Setup */
+.skills-mindmap-section {
+  position: relative;
+  width: 100%;
+  background: #030100; /* Deep volcanic black canvas */
+  overflow: hidden;
+}
+
+/* Vector Graphic Overlay Grid Layer */
+.fire-svg-canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fire-svg-canvas svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Clean up display layer tracks */
+.path-track {
+  display: none; /* Managed cleanly via JavaScript window evaluation */
+  filter: drop-shadow(0 0 5px #ff2b00) drop-shadow(0 0 15px #ff7700);
+}
+
+/* Skills Content Context Layout */
+.skills-content-grid {
+  position: relative;
+  width: 1000px;
+  margin: 0 auto;
+  min-height: 1600px;
+  padding: 100px 0;
+  z-index: 2;
+}
+
+/* Premium Technical Portfolio Cards */
+.skill-card {
+  position: absolute;
+  width: 360px;
+  padding: 28px;
+  border-radius: 16px;
+  background: rgba(13, 6, 3, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 50, 0, 0.04);
+  
+  /* Initial state: Soft and dim */
+  opacity: 0.12;
+  transform: scale(0.96);
+  
+  transition: 
+    opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+/* Precise Desktop Placement Points */
+.skill-card.left-node  { left: 20px; }
+.skill-card.right-node { right: 20px; }
+
+.skill-card.s1 { top: 180px; }
+.skill-card.s2 { top: 480px; }
+.skill-card.s3 { top: 780px; }
+.skill-card.s4 { top: 1080px; }
+.skill-card.s5 { top: 1380px; }
+
+/* Active Volcanic Ignition State */
+.skill-card.active {
+  opacity: 1;
+  transform: scale(1);
+  border-color: rgba(255, 119, 0, 0.35);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.6),
+    0 0 35px rgba(255, 43, 0, 0.15);
+}
+
+/* Card Content Typography Typography */
+.skill-category {
+  display: inline-block;
+  font-size: 10px;
+  font-family: monospace;
+  letter-spacing: 2px;
+  color: #ff5500;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.skill-card h3 {
+  margin-bottom: 10px;
+  font-size: 21px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.3px;
+  transition: color 0.4s ease;
+}
+
+.skill-card.active h3 {
+  color: #ffdd00; /* Turns bright glowing gold when ignited */
+}
+
+.skill-card p {
+  color: #9e948f;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE ENGINE (Single Column Flow Transformation)
+   ========================================================================== */
+@media(max-width: 1024px) {
+  .fire-svg-canvas {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
+
+  .skills-content-grid {
+    width: 100%;
+    max-width: 100%;
+    padding: 100px 20px 100px 120px; /* Leave breathing space on the left for the fluid tube track */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 100px; /* Native stack control replaces positioning rules */
+    min-height: auto;
+  }
+
+  .skill-card {
+    position: relative !important; /* Forces layout tracking inside column stack flow */
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100%;
+    max-width: 600px; /* Clean tracking width for processing viewports */
+  }
+}
+
+@media(max-width: 480px) {
+  .skills-content-grid {
+    padding-left: 95px; /* Compresses layout elegantly for smaller mobile viewports */
+  }
+}
+
+
+/* Section Base - Premium Minimal Light Theme */
+.portfolio-skills-section {
+  position: relative;
+  width: 100%;
+  padding: 80px 0;
+  background-color: #f8f9fa; /* High-end Minimal Whitesmoke */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+/* Header Component */
+.skills-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.sub-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #6366f1; /* Indigo Accent */
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.skills-header h2 {
+  font-size: 34px;
+  font-weight: 800;
+  color: #111827; /* Deep Slate Black */
+  margin-bottom: 12px;
+}
+
+.skills-header p {
+  font-size: 15px;
+  color: #6b7280;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Layout Container */
+.skills-timeline-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Absolute Vector Canvas Layer */
+.fluid-svg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fluid-svg-layer svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Tighter layout configurations */
+.skills-cards-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* Greatly compressed distance */
+  padding: 20px 0;
+}
+
+.skill-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.skill-row.row-center {
+  justify-content: center;
+}
+
+.row-space {
+  flex: 1;
+}
+
+/* Premium Dynamic Minimalist Cards */
+.skill-card {
+  width: 44%;
+  max-width: 420px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(17, 24, 39, 0.05);
+  border-radius: 16px;
+  
+  /* Neutral hidden state */
+  opacity: 0.2;
+  transform: translateY(15px) scale(0.98);
+  
+  transition: 
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Special Small Checkpoint Box Styling */
+.skill-card.checkpoint-card {
+  width: 100%;
+  max-width: 280px; /* Small, compact width */
+  padding: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px dashed rgba(99, 102, 241, 0.3);
+}
+
+/* Active Glow Ignition State matching the Energy Path */
+.skill-card.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 
+    0 15px 30px rgba(99, 102, 241, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.skill-card.checkpoint-card.active {
+  border-style: solid;
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);
+}
+
+/* Card Content Styling */
+.skill-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #6366f1;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.checkpoint-card .skill-tag {
+  color: #10b981; /* Emerald accent for checkpoint */
+}
+
+.skill-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.skill-card p {
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dynamic Live Filters for Light Theme Electric Glow */
+#liquid-flow {
+  filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.2));
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .skills-cards-wrapper {
+    gap: 35px;
+    padding-left: 50px; 
+    padding-right: 20px;
+  }
+
+  .skill-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skill-row.row-center {
+    align-items: flex-start;
+  }
+
+  .row-space {
+    display: none;
+  }
+
+  .skill-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .skill-card.checkpoint-card {
+    max-width: 100%;
+    text-align: left;
+  }
 }

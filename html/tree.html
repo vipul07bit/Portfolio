@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scroll Liquid Mindmap</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/MotionPathPlugin.min.js"></script>
+
+<style>
+/* Section Base - Premium Minimal Light Theme */
+.portfolio-skills-section {
+  position: relative;
+  width: 100%;
+  padding: 80px 0;
+  background-color: #f8f9fa; /* High-end Minimal Whitesmoke */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+/* Header Component */
+.skills-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.sub-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #6366f1; /* Indigo Accent */
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.skills-header h2 {
+  font-size: 34px;
+  font-weight: 800;
+  color: #111827; /* Deep Slate Black */
+  margin-bottom: 12px;
+}
+
+.skills-header p {
+  font-size: 15px;
+  color: #6b7280;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Layout Container */
+.skills-timeline-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Absolute Vector Canvas Layer */
+.fluid-svg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fluid-svg-layer svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Tighter layout configurations */
+.skills-cards-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* Greatly compressed distance */
+  padding: 20px 0;
+}
+
+.skill-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.skill-row.row-center {
+  justify-content: center;
+}
+
+.row-space {
+  flex: 1;
+}
+
+/* Premium Dynamic Minimalist Cards */
+.skill-card {
+  width: 44%;
+  max-width: 420px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(17, 24, 39, 0.05);
+  border-radius: 16px;
+  
+  /* Neutral hidden state */
+  opacity: 0.2;
+  transform: translateY(15px) scale(0.98);
+  
+  transition: 
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Special Small Checkpoint Box Styling */
+.skill-card.checkpoint-card {
+  width: 100%;
+  max-width: 280px; /* Small, compact width */
+  padding: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px dashed rgba(99, 102, 241, 0.3);
+}
+
+/* Active Glow Ignition State matching the Energy Path */
+.skill-card.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 
+    0 15px 30px rgba(99, 102, 241, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.skill-card.checkpoint-card.active {
+  border-style: solid;
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);
+}
+
+/* Card Content Styling */
+.skill-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #6366f1;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.checkpoint-card .skill-tag {
+  color: #10b981; /* Emerald accent for checkpoint */
+}
+
+.skill-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.skill-card p {
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dynamic Live Filters for Light Theme Electric Glow */
+#liquid-flow {
+  filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.2));
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .skills-cards-wrapper {
+    gap: 35px;
+    padding-left: 50px; 
+    padding-right: 20px;
+  }
+
+  .skill-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skill-row.row-center {
+    align-items: flex-start;
+  }
+
+  .row-space {
+    display: none;
+  }
+
+  .skill-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .skill-card.checkpoint-card {
+    max-width: 100%;
+    text-align: left;
+  }
+}
+</style>
+</head>
+
+<body>
+<section class="portfolio-skills-section">
+  
+  <div class="skills-header">
+    <span class="sub-badge">EXPERTISE</span>
+    <h2>My Tech Stack & Skills</h2>
+    <p>A fluid look at the core technologies driving my development pipeline.</p>
+  </div>
+
+  <div class="skills-timeline-container">
+    
+    <div class="fluid-svg-layer">
+      <svg id="fluid-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="liquid-fire-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#6366f1" />
+            <stop offset="70%" stop-color="#06b6d4" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+
+          <filter id="plasma-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <path id="bg-conduit" stroke="rgba(17, 24, 39, 0.04)" stroke-width="4" stroke-linecap="round"/>
+        <path id="liquid-flow" stroke="url(#liquid-fire-grad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <g id="energy-spark" filter="url(#plasma-glow)">
+          <circle r="10" fill="rgba(99, 102, 241, 0.3)" />
+          <circle r="6" fill="#06b6d4" />
+          <circle r="2.5" fill="#ffffff" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="skills-cards-wrapper">
+      
+      <div class="skill-row row-left">
+        <div class="skill-card" data-index="0">
+          <span class="skill-tag">ARCHITECTURE</span>
+          <h3>Frontend Engineering</h3>
+          <p>Building semantic, highly optimized interfaces using advanced React state machines and Next.js architecture.</p>
+        </div>
+        <div class="row-space"></div>
+      </div>
+
+      <div class="skill-row row-right">
+        <div class="row-space"></div>
+        <div class="skill-card" data-index="1">
+          <span class="skill-tag">SYSTEMS</span>
+          <h3>Backend Platforms</h3>
+          <p>Designing secure Node.js microservices, real-time communication modules, and distributed backend environments.</p>
+        </div>
+      </div>
+
+      <div class="skill-row row-left">
+        <div class="skill-card" data-index="2">
+          <span class="skill-tag">DATABASES</span>
+          <h3>Data Management</h3>
+          <p>Architecting structural data pools via enterprise relational indexes combined with sub-millisecond Redis caching engines.</p>
+        </div>
+        <div class="row-space"></div>
+      </div>
+
+      <div class="skill-row row-right">
+        <div class="row-space"></div>
+        <div class="skill-card" data-index="3">
+          <span class="skill-tag">CREATIVE</span>
+          <h3>Interactive Pipelines</h3>
+          <p>Crafting rich digital ecosystems utilizing low-latency programmatic matrices and dynamic SVG streams.</p>
+        </div>
+      </div>
+
+      <div class="skill-row row-center">
+        <div class="skill-card checkpoint-card" data-index="4">
+          <span class="skill-tag">✓ MILESTONE</span>
+          <h3>Mastering New Skills</h3>
+          <p>Continuously integrating evolving tech stacks.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+  const container = document.querySelector(".skills-timeline-container");
+  const svg = document.querySelector("#fluid-svg");
+  const bgConduit = document.querySelector("#bg-conduit");
+  const liquidFlow = document.querySelector("#liquid-flow");
+  const spark = document.querySelector("#energy-spark");
+  const cards = document.querySelectorAll(".skill-card");
+
+  function buildFluidTrack() {
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+    
+    svg.setAttribute("viewBox", `0 0 ${containerWidth} ${containerHeight}`);
+
+    const isMobile = window.innerWidth <= 768;
+    const pathCenterX = isMobile ? 30 : containerWidth / 2;
+
+    let pathString = `M ${pathCenterX} 0 `;
+
+    cards.forEach((card) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardTopRelative = cardRect.top - containerRect.top;
+      const cardMiddleY = cardTopRelative + (cardRect.height / 2);
+
+      // Plot smooth path down to card midpoint
+      pathString += `L ${pathCenterX} ${cardMiddleY - 30} `;
+      
+      if (isMobile) {
+        pathString += `C ${pathCenterX} ${cardMiddleY - 10}, ${pathCenterX + 10} ${cardMiddleY}, ${pathCenterX + 20} ${cardMiddleY} `;
+        pathString += `L ${pathCenterX + 20} ${cardMiddleY} `;
+        pathString += `L ${pathCenterX} ${cardMiddleY} `; 
+      } else {
+        if(card.classList.contains('checkpoint-card')) {
+          // Checkpoint logic: straight down through center item
+          pathString += `L ${pathCenterX} ${cardMiddleY} `;
+        } else {
+          // Alternate Left/Right branch logic
+          const isLeftCard = card.closest(".row-left") !== null;
+          const targetX = isLeftCard ? (cardRect.right - containerRect.left) : (cardRect.left - containerRect.left);
+          
+          pathString += `C ${pathCenterX} ${cardMiddleY - 15}, ${targetX} ${cardMiddleY - 15}, ${targetX} ${cardMiddleY} `;
+          pathString += `C ${targetX} ${cardMiddleY + 15}, ${pathCenterX} ${cardMiddleY + 15}, ${pathCenterX} ${cardMiddleY + 30} `;
+        }
+      }
+    });
+
+    pathString += `L ${pathCenterX} ${containerHeight}`;
+
+    bgConduit.setAttribute("d", pathString);
+    liquidFlow.setAttribute("d", pathString);
+
+    const totalPathLength = liquidFlow.getTotalLength();
+    gsap.set(liquidFlow, {
+      strokeDasharray: totalPathLength,
+      strokeDashoffset: totalPathLength
+    });
+
+    createScrollAnimations(totalPathLength);
+  }
+
+  function createScrollAnimations(pathLength) {
+    ScrollTrigger.getAll().forEach(t => t.kill());
+
+    // Master execution stream timeline
+    const scrollTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".skills-timeline-container",
+        start: "top 35%",
+        end: "bottom 75%",
+        scrub: 1.2,
+      }
+    });
+
+    scrollTimeline.to(liquidFlow, {
+      strokeDashoffset: 0,
+      ease: "none"
+    }, 0);
+
+    scrollTimeline.to(spark, {
+      motionPath: {
+        path: liquidFlow,
+        align: liquidFlow,
+        alignOrigin: [0.5, 0.5]
+      },
+      ease: "none"
+    }, 0);
+
+    // Pinpoint Active Card States based directly on spark coordinates tracking 
+    cards.forEach((card) => {
+      ScrollTrigger.create({
+        trigger: card,
+        start: "top 50%", // Tighter visual window triggers right as spark hits card
+        end: "bottom 30%",
+        onEnter: () => card.classList.add("active"),
+        onLeaveBack: () => card.classList.remove("active"),
+        onEnterBack: () => card.classList.add("active"),
+        onLeave: () => card.classList.remove("active")
+      });
+    });
+  }
+
+  buildFluidTrack();
+
+  window.addEventListener("resize", () => {
+    gsap.delayedCall(0.1, buildFluidTrack);
+  });
+});
+</script>
+</body>
+</html>

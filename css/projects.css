@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: #fafdfb; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ==========================================================================
+   Navigation Styles (Retained)
+   ========================================================================== */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 70px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.logo img {
+  width: 40px;
+}
+.logo h2 {
+  font-size: 18px;
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #3E6FAB;
+  font-weight: bold;
+}
+.logo span {
+  font-size: 14px;
+  color: #888;
+  font-weight: 400;
+}
+
+.nav-links {
+  display: flex;
+  gap: 60px;
+  font-weight: 500;
+  font-size: 18px;
+}
+.nav-links a {
+  transition: color 0.3s ease;
+  color: #fb0404;
+  text-decoration: none;
+}
+.nav-links .menu {
+  display: none;
+}
+
+.hire {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px; 
+    font-weight: 600;
+    padding: 0.6rem 1.4rem; 
+    background-color: rgba(0, 173, 255, 0.12); 
+    border: 2px dashed rgba(0, 173, 255, 0.4); 
+    border-radius: 50px; 
+    color: #00adff; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease; 
+}
+
+.hire:hover {
+    background-color: rgba(0, 173, 255, 0.25); 
+    border-style: solid; 
+    transform: translateY(-2px); /* Fixed from 4px drop to clean micro-lift */
+}
+
+/* ==========================================================================
+   Hero / Main Section (Retained Layout Specs)
+   ========================================================================== */
+.main {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(174, 158, 166, 0.08); 
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 2.5rem 1.5rem;
+    border-radius: 24px; 
+    display: flex;
+    flex-direction: column-reverse; 
+    align-items: center;    
+    text-align: center;     
+    gap: 2rem;            
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    max-width: 500px;       
+}
+
+.left h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+} 
+
+.left p {
+    font-size: 0.95rem;     
+    line-height: 1.6;
+    color: #64748b;         
+    margin-bottom: 1.5rem;  
+}
+
+.left a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.4rem;  
+    font-size: 0.85rem;      
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background-color: #FB0404;
+    border: none;
+    border-radius: 50px;     
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(251, 4, 4, 0.2); 
+    transition: all 0.25s ease;
+}
+
+.left a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(251, 4, 4, 0.35);
+    background-color: #e00303;
+}
+
+.right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.right img {
+    width: 100%;
+    max-width: 450px; 
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+}
+
+.head {
+    text-align: center;
+    padding: 60px 22px 20px 22px;
+    font-size: 1.5rem;
+    color: #1e293b;
+}
+
+/* ==========================================================================
+   Pinterest Grid & 3D Flip Mechanics
+   ========================================================================== */
+.project {
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto 40px auto;
+    column-count: 1;      
+    column-gap: 20px; 
+    padding: 2.2rem 20px;  
+    border-top: 1px solid rgba(0, 173, 255, 0.15);
+}
+
+.project .done {
+    width: 100%;
+    margin-bottom: 20px;
+    break-inside: avoid; 
+    perspective: 1000px; /* Gives depth context for the 3D rotation */
+}
+
+/* Internal card wrapper that performs the turn */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    border-radius: 12px;
+}
+
+/* Triggers the animation on hover */
+.project .done:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    width: 100%;
+    backface-visibility: hidden; /* Hides the underlying layer during rotation */
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.flip-card-front {
+    display: block;
+}
+
+.flip-card-front img {
+    width: 100%; 
+    display: block; 
+    border: 1px solid rgba(0, 0, 0, 0.06); 
+}
+
+/* Back Face settings (Pre-rotated, absolute layout) */
+.flip-card-back {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.2rem;
+}
+
+.flip-card-back p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+/* Secondary shrunken project links on back panels */
+.flip-card-back .hire {
+    font-size: 11px;
+    padding: 0.4rem 1rem;
+}
+
+/* ==========================================================================
+   Media Queries (Responsive Layout Preservation)
+   ========================================================================== */
+@media (min-width: 768px) {
+    .project {
+        column-count: 2;          
+    }
+}
+
+@media (min-width: 1024px) {
+    .main {
+        width: 80%;
+        padding: 4rem 3rem;
+        gap: 4rem;
+        flex-direction: row; 
+        justify-content: space-between;
+    }
+
+    .left {
+        text-align: left;       
+        align-items: flex-start; 
+        width: 45%;
+    }
+
+    .right {
+        width: 50%;
+        justify-content: flex-end; 
+    }
+
+    .right img {
+        max-width: 550px; 
+    }
+
+    .project {
+        column-count: 4;          
+    }
+}

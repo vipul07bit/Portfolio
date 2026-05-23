@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtle Zoom Pinned Video</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #807f7f; color: #fff; font-family: sans-serif; overflow-x: hidden; }
+
+        #pin-section { 
+            height: 100vh; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #696969;
+            overflow: hidden; 
+        }
+
+        video { 
+            /* Kept the small size you requested earlier */
+            width: 350px; 
+            height: auto; 
+            border-radius: 12px;
+            transform-origin: center center;
+            will-change: transform;
+        }
+
+        #content-below {
+            min-height: 100vh;
+            padding: 100px 20px;
+            background-color: #111;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 { margin-bottom: 20px; font-size: 3rem; }
+        p { font-size: 1.5rem; color: #131313; max-width: 600px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div id="pin-section">
+        <video id="bg-video" src="hero.webm" muted playsinline preload="auto"></video>
+    </div>
+
+    <div id="content-below">
+        <h1>Zoom Complete!</h1>
+        <p>The video zoomed in subtly up to 1.35x. You can now continue scrolling the website.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
