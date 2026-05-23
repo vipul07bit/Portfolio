@@ -1,0 +1,191 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 70px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.logo img {
+  width: 40px;
+}
+.logo h2 {
+  font-size: 18px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+.logo span {
+  font-size: 14px;
+  color: #888;
+  font-weight: 400;
+}
+
+.nav-links {
+  display: flex;
+  gap: 60px;
+  font-weight: 500;
+  font-size: 18px;
+}
+.nav-links a {
+  transition: color 0.3s ease;
+  color: #fb0404;
+  text-decoration: none;
+}
+.nav-links .menu {
+  display: none;
+}
+
+/* HERO SECTION FIXED */
+.hero {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  
+  height: 100vh;
+  width: 100%;
+  overflow: hidden; 
+  
+  /* Added the bottom border here */
+  border-bottom: 2px solid #ddd; 
+}
+
+/* ... keep your existing .hero-left and .set CSS here ... */
+
+.hero-right {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-right video {
+  /* Reduced size so it fits perfectly on screen without hiding your head */
+  width: 60%; 
+  max-width: 450px; 
+  height: auto;
+  
+  /* Removed border-radius and box-shadow completely as requested */
+  
+  /* Crucial for smooth GSAP zooming */
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.hero-left {
+  width: 50%; /* Fixed the 110vw bug */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: #f6f1b5; */
+  padding: 0 80px; /* Cleaned up padding */
+}
+
+.hero-left h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+.hero-left p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.set .btn {
+  padding: 10px 20px;
+  background-color: #fb0404;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+/* The Typewriter Effect */
+.hero-name {
+  display: inline-block; /* Keeps the container exactly as wide as the text */
+  overflow: hidden;      /* Hides the text that hasn't been "typed" yet */
+  white-space: nowrap;   /* Prevents the text from wrapping to the next line */
+  border-right: 3px solid #fb0404; /* This acts as your blinking cursor */
+  
+  /* * '28ch' is the exact width of your text (28 characters).
+   * 'steps(28)' forces the animation to reveal exactly 1 character at a time.
+   */
+  width: 0; 
+  animation: 
+    typing 2.5s steps(28) forwards, 
+    blink 0.75s step-end infinite;
+}
+
+/* Animation that reveals the text */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 28ch; } /* 'ch' stands for character width */
+}
+
+/* Animation that makes the cursor blink */
+@keyframes blink {
+  from, to { border-color: transparent; }
+  50% { border-color: #fb0404; }
+}
+
+/* SKILLS SECTION */
+.skills {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 100px;
+  background-color: #fff;
+}
+.skills h2 {
+  font-size: 32px;
+  margin-bottom: 60px;
+  padding: 10px 50px;
+  border-radius: 50px;
+  color: white;
+  background: linear-gradient(90deg, #fb0404, #fbb040);
+}
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 800px;
+}
+.skill-l, .skill-r {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
