@@ -1,110 +1,82 @@
 document.addEventListener("DOMContentLoaded", () => {
-  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+    // 1. Register the GSAP Plugins you included in your HTML
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
-  const container = document.querySelector(".skills-timeline-container");
-  const svg = document.querySelector("#fluid-svg");
-  const bgConduit = document.querySelector("#bg-conduit");
-  const liquidFlow = document.querySelector("#liquid-flow");
-  const spark = document.querySelector("#energy-spark");
-  const cards = document.querySelectorAll(".skill-card");
+    const container = document.querySelector(".skills-timeline-container");
+    const svg = document.querySelector("#fluid-svg");
+    const bgConduit = document.querySelector("#bg-conduit");
+    const liquidFlow = document.querySelector("#liquid-flow");
+    const spark = document.querySelector("#energy-spark");
+    const cards = document.querySelectorAll(".skill-card");
 
-  function buildFluidTrack() {
-    const containerRect = container.getBoundingClientRect();
-    const containerWidth = containerRect.width;
-    const containerHeight = containerRect.height;
-    
-    svg.setAttribute("viewBox", `0 0 ${containerWidth} ${containerHeight}`);
+    // 2. Dynamically draw a straight "tech spine" path down the middle
+    function setupPath() {
+        // Get the height of the container so the line goes all the way down
+        const width = container.offsetWidth;
+        const height = container.offsetHeight;
+        const midX = width / 2;
 
-    const isMobile = window.innerWidth <= 768;
-    const pathCenterX = isMobile ? 30 : containerWidth / 2;
+        // Set SVG canvas dimensions
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
-    let pathString = `M ${pathCenterX} 0 `;
+        // Draw a straight line directly down the middle
+        const pathString = `M ${midX} 0 L ${midX} ${height}`;
+        
+        bgConduit.setAttribute("d", pathString);
+        liquidFlow.setAttribute("d", pathString);
 
-    cards.forEach((card) => {
-      const cardRect = card.getBoundingClientRect();
-      const cardTopRelative = cardRect.top - containerRect.top;
-      const cardMiddleY = cardTopRelative + (cardRect.height / 2);
+        // Calculate length for the "drawing" animation
+        const pathLength = liquidFlow.getTotalLength();
+        gsap.set(liquidFlow, {
+            strokeDasharray: pathLength,
+            strokeDashoffset: pathLength,
+        });
 
-      // Plot smooth path down to card midpoint
-      pathString += `L ${pathCenterX} ${cardMiddleY - 30} `;
-      
-      if (isMobile) {
-        pathString += `C ${pathCenterX} ${cardMiddleY - 10}, ${pathCenterX + 10} ${cardMiddleY}, ${pathCenterX + 20} ${cardMiddleY} `;
-        pathString += `L ${pathCenterX + 20} ${cardMiddleY} `;
-        pathString += `L ${pathCenterX} ${cardMiddleY} `; 
-      } else {
-        if(card.classList.contains('checkpoint-card')) {
-          // Checkpoint logic: straight down through center item
-          pathString += `L ${pathCenterX} ${cardMiddleY} `;
-        } else {
-          // Alternate Left/Right branch logic
-          const isLeftCard = card.closest(".row-left") !== null;
-          const targetX = isLeftCard ? (cardRect.right - containerRect.left) : (cardRect.left - containerRect.left);
-          
-          pathString += `C ${pathCenterX} ${cardMiddleY - 15}, ${targetX} ${cardMiddleY - 15}, ${targetX} ${cardMiddleY} `;
-          pathString += `C ${targetX} ${cardMiddleY + 15}, ${pathCenterX} ${cardMiddleY + 15}, ${pathCenterX} ${cardMiddleY + 30} `;
+        return pathLength;
+    }
+
+    // Initialize the path
+    setupPath();
+
+    // 3. Create the Main Scroll Animation Timeline
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".skills-timeline-container",
+            start: "top 60%",     // Starts when container hits 60% of the screen
+            end: "bottom 80%",    // Ends near the bottom of the container
+            scrub: 1,             // Smoothly ties the animation to the scrollbar
         }
-      }
     });
 
-    pathString += `L ${pathCenterX} ${containerHeight}`;
-
-    bgConduit.setAttribute("d", pathString);
-    liquidFlow.setAttribute("d", pathString);
-
-    const totalPathLength = liquidFlow.getTotalLength();
-    gsap.set(liquidFlow, {
-      strokeDasharray: totalPathLength,
-      strokeDashoffset: totalPathLength
-    });
-
-    createScrollAnimations(totalPathLength);
-  }
-
-  function createScrollAnimations(pathLength) {
-    ScrollTrigger.getAll().forEach(t => t.kill());
-
-    // Master execution stream timeline
-    const scrollTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".skills-timeline-container",
-        start: "top 35%",
-        end: "bottom 75%",
-        scrub: 1.2,
-      }
-    });
-
-    scrollTimeline.to(liquidFlow, {
-      strokeDashoffset: 0,
-      ease: "none"
+    // Animate the colored liquid line drawing downwards
+    tl.to(liquidFlow, {
+        strokeDashoffset: 0,
+        ease: "none"
     }, 0);
 
-    scrollTimeline.to(spark, {
-      motionPath: {
-        path: liquidFlow,
-        align: liquidFlow,
-        alignOrigin: [0.5, 0.5]
-      },
-      ease: "none"
+    // Animate the glowing spark following the exact same path
+    tl.to(spark, {
+        motionPath: {
+            path: liquidFlow,
+            align: liquidFlow,
+            alignOrigin: [0.5, 0.5]
+        },
+        ease: "none"
     }, 0);
 
-    // Pinpoint Active Card States based directly on spark coordinates tracking 
+    // 4. Showcase Cards when the scroll reaches them
     cards.forEach((card) => {
-      ScrollTrigger.create({
-        trigger: card,
-        start: "top 50%", // Tighter visual window triggers right as spark hits card
-        end: "bottom 30%",
-        onEnter: () => card.classList.add("active"),
-        onLeaveBack: () => card.classList.remove("active"),
-        onEnterBack: () => card.classList.add("active"),
-        onLeave: () => card.classList.remove("active")
-      });
+        ScrollTrigger.create({
+            trigger: card,
+            start: "top 55%", // Triggers when the card enters the middle of the screen
+            onEnter: () => card.classList.add("active"),
+            onLeaveBack: () => card.classList.remove("active"), // Removes glow if you scroll back up
+        });
     });
-  }
 
-  buildFluidTrack();
-
-  window.addEventListener("resize", () => {
-    gsap.delayedCall(0.1, buildFluidTrack);
-  });
+    // 5. Ensure everything stays aligned if the user resizes their browser window
+    window.addEventListener("resize", () => {
+        setupPath();
+        ScrollTrigger.refresh();
+    });
 });

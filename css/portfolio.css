@@ -457,7 +457,9 @@ nav {
 }
 
 /* Premium Dynamic Minimalist Cards */
+/* Premium Dynamic Minimalist Cards */
 .skill-card {
+  position: relative; /* <-- ADD THIS LINE to fix the overlapping */
   width: 44%;
   max-width: 420px;
   padding: 24px;
@@ -468,7 +470,7 @@ nav {
   border-radius: 16px;
   
   /* Neutral hidden state */
-  opacity: 0.2;
+  opacity: 0.2; 
   transform: translateY(15px) scale(0.98);
   
   transition: 
@@ -477,7 +479,6 @@ nav {
     border-color 0.4s ease,
     box-shadow 0.4s ease;
 }
-
 /* Special Small Checkpoint Box Styling */
 .skill-card.checkpoint-card {
   width: 100%;
