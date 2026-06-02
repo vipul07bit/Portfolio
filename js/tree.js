@@ -1,3 +1,5 @@
+// this file is currently stop
+
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Register the GSAP Plugins you included in your HTML
     gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
